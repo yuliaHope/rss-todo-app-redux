@@ -10,14 +10,14 @@ const getStyle = completed => {
   };
 };
 
-export const TodoItem = ({ todo, toggleComplete, delTodo }) => {
+export const TodoItem = ({ todo, onTodoClick, delTodo }) => {
   const { id, title, completed } = todo;
   return (
     <div style={getStyle(completed)}>
       <p>
         <input
           type="checkbox"
-          onChange={() => toggleComplete(id)}
+          onChange={() => onTodoClick(id)}
           checked={completed ? 'checked' : ''}
         />{' '}
         {title}
@@ -31,7 +31,7 @@ export const TodoItem = ({ todo, toggleComplete, delTodo }) => {
 
 TodoItem.propTypes = {
   todo: PropTypes.shape({}).isRequired,
-  toggleComplete: PropTypes.func.isRequired,
+  onTodoClick: PropTypes.func.isRequired,
   delTodo: PropTypes.func.isRequired,
 };
 

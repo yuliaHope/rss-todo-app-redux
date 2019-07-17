@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export class AddTodo extends Component {
+import { addTodo as addTodoAction } from '../actions/todos';
+
+export class AddTodoUI extends Component {
     state = {
         title: ''
     }
@@ -36,8 +39,22 @@ export class AddTodo extends Component {
     }
 }
 
-AddTodo.propTypes = {
+AddTodoUI.propTypes = {
     addTodo: PropTypes.func.isRequired
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addTodo: title => {
+      dispatch(addTodoAction(title))
+    }
+  }
+}
+
+const AddTodo = connect(
+  null,
+  mapDispatchToProps
+)(AddTodoUI)
+
 
 export default AddTodo;

@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import { todos } from './reducers/todos';
@@ -9,6 +9,8 @@ const middlewares = [thunkMiddleware];
 
 const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
-const store = createStore(todos, enhancer);
+const rootReducer = combineReducers({ todos });
+
+const store = createStore(rootReducer, enhancer);
 
 export default store;

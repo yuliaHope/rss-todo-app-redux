@@ -15,8 +15,8 @@ export function requestTodos() {
   return { type: REQUEST_TODOS };
 }
 
-export function receiveTodos() {
-  return { type: RECEIVE_TODOS };
+export function receiveTodos(todos) {
+  return { type: RECEIVE_TODOS, todos };
 }
 
 export function failGettingTodos() {
@@ -25,7 +25,7 @@ export function failGettingTodos() {
 
 const TODOS_URL = 'https://jsonplaceholder.typicode.com/todos?_limit=10';
 
-export function getTodos() {
+export function fetchTodos() {
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
@@ -45,7 +45,7 @@ export function getTodos() {
     return axios
       .get(TODOS_URL)
       .then(
-        res => dispatch(receiveTodos(res)),
+        res => dispatch(receiveTodos(res.data)),
         error => dispatch(failGettingTodos(error))
       );
   };
@@ -58,7 +58,7 @@ export function addTodo(text) {
         title: text,
         completed: false,
       })
-      .then(res => dispatch({ type: ADD_TODO, payload: res }));
+      .then(res => dispatch({ type: ADD_TODO, todo: res.data }));
   };
 }
 

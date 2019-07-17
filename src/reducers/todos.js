@@ -12,7 +12,7 @@ const initialState = {};
 export function todos(state = initialState, action) {
   switch (action.type) {
     case ADD_TODO:
-      return { ...state, [action.payload.id]: action.payload };
+      return { ...state, [action.todo.id]: action.todo };
     case TOGGLE_COMPLETE: {
       const todo = state[action.id];
       return { ...state, [action.id]: { ...todo, completed: !todo.completed } };
@@ -27,7 +27,7 @@ export function todos(state = initialState, action) {
     }
     case RECEIVE_TODOS: {
       const newState = {};
-      action.payload.forEach(todo => (newState[todo.id] = todo));
+      action.todos.forEach(todo => (newState[todo.id] = todo));
       return newState;
     }
     case FAIL_GETTING_TODOS: {
