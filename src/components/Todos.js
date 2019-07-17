@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import TodoItem from "./TodoItem";
+import TodoItem from './TodoItem';
 
 const Todos = ({ todos, markComplete, delTodo }) =>
   todos.map(todo => (
@@ -13,10 +13,10 @@ const Todos = ({ todos, markComplete, delTodo }) =>
     />
   ));
 
-Todos.PropTypes = {
+Todos.propTypes = {
   todos: PropTypes.array.isRequired,
   markComplete: PropTypes.func.isRequired,
-  delTodo: PropTypes.func.isRequired
+  delTodo: PropTypes.func.isRequired,
 };
 
 export default Todos;

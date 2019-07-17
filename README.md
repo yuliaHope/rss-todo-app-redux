@@ -6,7 +6,6 @@ A Simple To-Do List app built with React.js
 
 ### Built Using
 - React.js
-- React-Router
 - Axios
 - Milligram
 
