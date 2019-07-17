@@ -1,24 +1,21 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import TodoItem from './TodoItem';
 
-class TodoList extends Component {
-  componentDidMount() {
-    this.props.getTodos();
-  }
+function TodoList({todos, size, onTodoClick, deleteTodo, getTodos}) {
+  useEffect(() => {
+    getTodos();
+  }, [size]);
 
-  render() {
-    const { todos, onTodoClick, deleteTodo } = this.props;
-    return todos.map(todo => (
-      <TodoItem
-        key={todo.id}
-        todo={todo}
-        onTodoClick={onTodoClick}
-        delTodo={deleteTodo}
-      />
-    ));
-  }
+  return todos.map(todo => (
+    <TodoItem
+      key={todo.id}
+      todo={todo}
+      onTodoClick={onTodoClick}
+      delTodo={deleteTodo}
+    />
+  ));
 }
 
 TodoList.propTypes = {
