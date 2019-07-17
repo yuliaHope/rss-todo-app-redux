@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 
 import TodoItem from './TodoItem';
 
-const Todos = ({ todos, markComplete, delTodo }) =>
+const Todos = ({ todos, toggleComplete, delTodo }) =>
   todos.map(todo => (
     <TodoItem
       key={todo.id}
       todo={todo}
-      markComplete={markComplete}
+      toggleComplete={toggleComplete}
       delTodo={delTodo}
     />
   ));
 
 Todos.propTypes = {
   todos: PropTypes.array.isRequired,
-  markComplete: PropTypes.func.isRequired,
+  toggleComplete: PropTypes.func.isRequired,
   delTodo: PropTypes.func.isRequired,
 };
 
