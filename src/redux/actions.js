@@ -1,37 +1,29 @@
-import axios from 'axios';
+import axios from "axios";
 
-export const ADD_TODO = 'ADD_TODO';
-export const TOGGLE_COMPLETE = 'TOGGLE_COMPLETE';
-export const DELETE_TODO = 'DELETE_TODO';
-export const REQUEST_TODOS = 'REQUEST_TODOS';
-export const RECEIVE_TODOS = 'RECEIVE_TODOS';
-export const FAIL_GETTING_TODOS = 'FAIL_GETTING_TODOS';
-
-export function addTodo(text) {
-  return { type: ADD_TODO, text }
-}
+export const ADD_TODO = "ADD_TODO";
+export const TOGGLE_COMPLETE = "TOGGLE_COMPLETE";
+export const DELETE_TODO = "DELETE_TODO";
+export const REQUEST_TODOS = "REQUEST_TODOS";
+export const RECEIVE_TODOS = "RECEIVE_TODOS";
+export const FAIL_GETTING_TODOS = "FAIL_GETTING_TODOS";
 
 export function toggleTodo(id) {
-  return { type: TOGGLE_COMPLETE, id }
-}
-
-export function deleteTodo(id) {
-  return { type: DELETE_TODO, id }
+  return { type: TOGGLE_COMPLETE, id };
 }
 
 export function requestTodos() {
-  return { type: REQUEST_TODOS }
+  return { type: REQUEST_TODOS };
 }
 
 export function receiveTodos() {
-  return { type: RECEIVE_TODOS }
+  return { type: RECEIVE_TODOS };
 }
 
 export function failGettingTodos() {
-    return { type: FAIL_GETTING_TODOS }
+  return { type: FAIL_GETTING_TODOS };
 }
 
-const TODOS_URL = 'https://jsonplaceholder.typicode.com/todos?_limit=10';
+const TODOS_URL = "https://jsonplaceholder.typicode.com/todos?_limit=10";
 
 export function getTodos() {
   // Thunk middleware knows how to handle functions.
@@ -42,7 +34,7 @@ export function getTodos() {
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
 
-    dispatch(requestTodos())
+    dispatch(requestTodos());
 
     // The function called by the thunk middleware can return a value,
     // that is passed on as the return value of the dispatch method.
@@ -53,8 +45,27 @@ export function getTodos() {
     return axios
       .get(TODOS_URL)
       .then(
-        res => dispatch(receiveTodos(res)),
-        error => dispatch(failGettingTodos(error)),
-      )
-  }
+        (res) => dispatch(receiveTodos(res)),
+        (error) => dispatch(failGettingTodos(error))
+      );
+  };
+}
+
+export function addTodo(text) {
+  return function(dispatch) {
+    axios
+      .post("https://jsonplaceholder.typicode.com/todos", {
+        title: text,
+        completed: false,
+      })
+      .then((res) => dispatch({ type: ADD_TODO, payload: res }));
+  };
+}
+
+export function deleteTodo(id) {
+  return function(dispatch) {
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+      .then((res) => dispatch({ type: DELETE_TODO, id }));
+  };
 }
