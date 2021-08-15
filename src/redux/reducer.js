@@ -9,10 +9,10 @@ import {
 
 const initialState = {};
 
-function todos(state = initialState, action) {
+export function todos(state = initialState, action) {
   switch (action.type) {
     case ADD_TODO:
-      return { ...state, [action.payload.id]: action.payload };
+      return { ...state, [action.todo.id]: action.todo };
     case TOGGLE_COMPLETE: {
       const todo = state[action.id];
       return { ...state, [action.id]: { ...todo, completed: !todo.completed } };
@@ -27,7 +27,7 @@ function todos(state = initialState, action) {
     }
     case RECEIVE_TODOS: {
       const newState = {};
-      action.payload.forEach((todo) => (newState[todo.id] = todo));
+      action.todos.forEach((todo) => (newState[todo.id] = todo));
       return newState;
     }
     case FAIL_GETTING_TODOS: {
@@ -39,4 +39,4 @@ function todos(state = initialState, action) {
   }
 }
 
-export default todos;
+export const getTodos = todos => Object.keys(todos).map(id => todos[id]);

@@ -11,12 +11,12 @@ export function toggleTodo(id) {
   return { type: TOGGLE_COMPLETE, id };
 }
 
-export function requestTodos() {
+export function fetchTodos() {
   return { type: REQUEST_TODOS };
 }
 
-export function receiveTodos() {
-  return { type: RECEIVE_TODOS };
+export function receiveTodos(todos) {
+  return { type: RECEIVE_TODOS, todos };
 }
 
 export function failGettingTodos() {
@@ -34,7 +34,7 @@ export function getTodos() {
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
 
-    dispatch(requestTodos());
+    dispatch(fetchTodos());
 
     // The function called by the thunk middleware can return a value,
     // that is passed on as the return value of the dispatch method.
@@ -45,7 +45,7 @@ export function getTodos() {
     return axios
       .get(TODOS_URL)
       .then(
-        (res) => dispatch(receiveTodos(res)),
+        (res) => dispatch(receiveTodos(res.data)),
         (error) => dispatch(failGettingTodos(error))
       );
   };
@@ -58,7 +58,7 @@ export function addTodo(text) {
         title: text,
         completed: false,
       })
-      .then((res) => dispatch({ type: ADD_TODO, payload: res }));
+      .then((res) => dispatch({ type: ADD_TODO, todo: res.data }));
   };
 }
 
