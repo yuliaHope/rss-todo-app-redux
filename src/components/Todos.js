@@ -13,7 +13,7 @@ const Todos = ({ todos, markComplete, delTodo }) =>
     />
   ));
 
-Todos.PropTypes = {
+Todos.propTypes = {
   todos: PropTypes.array.isRequired,
   markComplete: PropTypes.func.isRequired,
   delTodo: PropTypes.func.isRequired

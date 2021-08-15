@@ -1,5 +1,5 @@
 // Importing Modules
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 // Importing Components
@@ -9,67 +9,48 @@ import AddTodo from "./components/AddTodo";
 
 import "./App.css";
 
-class App extends Component {
-  state = {
-    todos: []
-  };
+function App() {
+  const [todos, setTodos] = useState([]);
 
-  componentDidMount() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
-      .then(res => this.setState({ todos: res.data }));
-  }
+  useEffect(async () => {
+    const res = await axios.get(
+      "https://jsonplaceholder.typicode.com/todos?_limit=10"
+    );
+    setTodos(res.data);
+  }, []);
 
-  // Toggle Complete
-  markComplete = id => {
-    this.setState({
-      todos: this.state.todos.map(todo => {
+  const markComplete = (id) => {
+    setTodos((todos) =>
+      todos.map((todo) => {
         if (todo.id === id) todo.completed = !todo.completed;
         return todo;
       })
-    });
-  };
-
-  // Delete Todo
-  delTodo = id => {
-    axios
-      .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-      .then(res =>
-        this.setState({
-          todos: [...this.state.todos.filter(todo => todo.id !== id)]
-        })
-      );
-  };
-
-  addTodo = title => {
-    axios
-      .post("https://jsonplaceholder.typicode.com/todos", {
-        title: title,
-        completed: false
-      })
-      .then(res =>
-        this.setState({
-          todos: [...this.state.todos, res.data]
-        })
-      );
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <div className="container">
-          <Header />
-          <br />
-          <AddTodo addTodo={this.addTodo} />
-          <Todos
-            todos={this.state.todos}
-            markComplete={this.markComplete}
-            delTodo={this.delTodo}
-          />
-        </div>
-      </div>
     );
-  }
+  };
+
+  const deleleTodo = async (id) => {
+    await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+  };
+
+  const addTodo = async (title) => {
+    const res = await axios.post("https://jsonplaceholder.typicode.com/todos", {
+      title: title,
+      completed: false,
+    });
+    setTodos((todos) => [...todos, res.data]);
+  };
+
+  return (
+    <div className="App">
+      <div className="container">
+        <Header />
+        <br />
+        <AddTodo addTodo={addTodo} />
+        <Todos todos={todos} markComplete={markComplete} delTodo={deleleTodo} />
+      </div>
+    </div>
+  );
 }
 
 export default App;

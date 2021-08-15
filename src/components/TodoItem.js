@@ -22,15 +22,15 @@ export const TodoItem = ({ todo, markComplete, delTodo }) => {
         />{" "}
         {title}
         <button onClick={() => delTodo(id)} style={{ float: "right" }}>
-          <i class="fa fa-trash" aria-hidden="true" />
+          <i className="fa fa-trash" aria-hidden="true" />
         </button>
       </p>
     </div>
   );
 };
 
-TodoItem.PropTypes = {
-  todos: PropTypes.object.isRequired,
+TodoItem.propTypes = {
+  todo: PropTypes.object.isRequired,
   markComplete: PropTypes.func.isRequired,
   delTodo: PropTypes.func.isRequired
 };
