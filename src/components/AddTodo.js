@@ -1,16 +1,18 @@
 import React, { useCallback, useState } from "react";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { addTodo } from '../redux/reducer'; 
 
 const inputStyle = { flex: "10", padding: "5px" };
 const formStyle = { display: "flex" };
 const submitStyle =  { flex: "1" };
 
-export function AddTodo({ addTodo }) {
+export function AddTodo() {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    addTodo(title);
+    dispatch(addTodo(title));
     setTitle("");
   }, [title]);
 
@@ -35,9 +37,5 @@ export function AddTodo({ addTodo }) {
     </form>
   );
 }
-
-AddTodo.propTypes = {
-  addTodo: PropTypes.func.isRequired,
-};
 
 export default AddTodo;

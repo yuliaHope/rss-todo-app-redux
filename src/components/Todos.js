@@ -1,22 +1,24 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { togleComplete, deleteTodo, fetchTodos } from "../redux/reducer";
 
 import TodoItem from "./TodoItem";
 
-const Todos = ({ todos, markComplete, delTodo }) =>
-  todos.map(todo => (
-    <TodoItem
-      key={todo.id}
-      todo={todo}
-      markComplete={markComplete}
-      delTodo={delTodo}
+const Todos = () => {
+  const todos = useSelector((state) => state.todos.entities);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, []);
+
+  return Object.keys(todos).map((id) => ( <TodoItem
+      key={id}
+      todo={todos[id]}
+      markComplete={() => dispatch(togleComplete(id))}
+      delTodo={() => dispatch(deleteTodo(id))}
     />
   ));
-
-Todos.propTypes = {
-  todos: PropTypes.array.isRequired,
-  markComplete: PropTypes.func.isRequired,
-  delTodo: PropTypes.func.isRequired
 };
 
 export default Todos;
